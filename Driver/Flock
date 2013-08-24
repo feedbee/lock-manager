@@ -1,0 +1,39 @@
+<?php
+
+class LockManager_Driver_Flock
+{
+	private $lockFilesDir;
+
+	private $lockHandlers = array();
+
+	public function __construct()
+	{
+		$this->lockFilesDir = sys_get_temp_dir();
+	}
+
+	public function doLock($key)
+	{
+		$key = urlencode($key);
+		$this->lockHandlers[$key] = fopen("{$this->lockFilesDir}/lock-$key", "w+");
+		if ($this->lockHandlers[$key]) {
+			if (flock($this->lockHandlers[$key], LOCK_EX)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public function doRelease($key)
+	{
+		$name = "{$this->lockFilesDir}/lock-$key";
+
+		$result = false;
+		if (isset($this->lockHandlers[$key]) && $this->lockHandlers[$key]) {
+			$result = flock($this->lockHandlers[$key], LOCK_UN);
+			fclose($this->lockHandlers[$key]);
+			unset($this->lockHandlers[$key]);
+		}
+		return $result;
+	}
+}
