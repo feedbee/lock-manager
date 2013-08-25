@@ -2,6 +2,8 @@
 
 namespace LockManager;
 
+use LockManager\Driver\DriverInterface;
+
 /**
  * LockManager
  *
@@ -17,16 +19,16 @@ namespace LockManager;
 class LockManager
 {
 	/**
-	 * @var Driver\DriverInterface $driver
+	 * @var \LockManager\Driver\DriverInterface $driver
 	 */
 	private $driver;
 
-	public function __construct(Driver\DriverInterface $driver)
+	public function __construct(DriverInterface $driver)
 	{
 		$this->driver = $driver;
 	}
 
-	public function setDriver(Driver\DriverInterface $driver)
+	public function setDriver(DriverInterface $driver)
 	{
 		$this->driver = $driver;
 	}

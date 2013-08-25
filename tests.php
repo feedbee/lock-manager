@@ -16,6 +16,11 @@ require_once('Driver/Flock.php');
 require_once('Driver/Redis.php');
 require_once('Driver/Memcached.php');
 
+use LockManager\LockManager;
+use LockManager\Driver\Memcached as MemcachedDriver;
+use LockManager\Driver\Redis as RedisDriver;
+use LockManager\Driver\Flock as FlockDriver;
+
 $opt = getopt('mrfs');
 if (isset($opt['m'])) {
 	print "LockManager: Memcached back-end test" . PHP_EOL;
@@ -29,17 +34,17 @@ else if (isset($opt['r'])) {
 	$redis = new \Redis;
 	$redis->connect('127.0.0.1');
 
-	$backend = new \LockManager\Driver\Redis($redis);
+	$backend = new RedisDriver($redis);
 }
 else if (isset($opt['f'])) {
 	print "LockManager: Flock back-end test" . PHP_EOL;
-	$backend = new \LockManager\Driver\Flock;
+	$backend = new FlockDriver;
 }
 else {
 	die('Set back-end parameter: -m, -r, or -f');
 }
 
-$lockManager = new \LockManager\LockManager($backend);
+$lockManager = new LockManager($backend);
 
 if (isset($opt['s'])) {
 	// Run simple test (for debug purpose)
