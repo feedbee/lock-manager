@@ -60,8 +60,9 @@ if (isset($opt['s'])) {
 
 // Run standard test
 print "Test is infinitive and must be interrupter with system termination signal (CTRL+C)" . PHP_EOL;
-$dir = sys_get_temp_dir();
-$fd = fopen("{$dir}/lock-test-file", "w+");
+$sysTmpDir = sys_get_temp_dir();
+$testFilePath = "{$sysTmpDir}/lock-test-file";
+$fd = fopen($testFilePath, "w+");
 
 $all = $failed = 0;
 
@@ -84,5 +85,8 @@ do {
 	$all++;
 }
 while (1);
+
+fclose($fd);
+unlink($testFilePath);
 
 // Test is infinitive and must be interrupter with system termination signal (CTRL+C)
