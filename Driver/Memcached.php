@@ -132,7 +132,7 @@ class Memcached implements DriverInterface
  
 	/**
 	 * Generates an expire time based on the current time
-	 * @return int	timeout
+	 * @return int timeout
 	 */
 	protected static function timeout() {
 		return (int) (time() + self::LOCK_EXPIRE_TIMEOUT + 1);

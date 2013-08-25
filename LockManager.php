@@ -23,25 +23,52 @@ class LockManager
 	 */
 	private $driver;
 
+	/**
+	 * @param DriverInterface $driver
+	 */
 	public function __construct(DriverInterface $driver)
 	{
 		$this->driver = $driver;
 	}
 
+	/**
+	 * Set back-end driver object
+	 *
+	 * @param DriverInterface $driver
+	 */
 	public function setDriver(DriverInterface $driver)
 	{
 		$this->driver = $driver;
 	}
+	/**
+	 * Get currently used back-end driver (or null if it isn't set)
+	 *
+	 * @return DriverInterface
+	 */
 	public function getDriver()
 	{
 		return $this->driver;
 	}
 
+	/**
+	 * Try to acquire lock
+	 * Returns true on success or false on failure (can't acquire lock or any back-end internal error).
+	 *
+	 * @param $key
+	 * @return bool
+	 */
 	public function lock($key)
 	{
 		return $this->driver->doLock($key);
 	}
 
+	/**
+	 * Release lock
+	 * Returns true on success or false on any back-end internal error.
+	 *
+	 * @param $key
+	 * @return bool
+	 */
 	public function release($key)
 	{
 		return $this->driver->doRelease($key);

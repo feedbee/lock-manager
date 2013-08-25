@@ -95,7 +95,7 @@ class Redis implements DriverInterface
  
 	/**
 	 * Generates an expire time based on the current time
-	 * @return int	timeout
+	 * @return int timeout
 	 */
 	protected static function timeout() {
 		return (int) (time() + self::LOCK_EXPIRE_TIMEOUT + 1);
@@ -103,8 +103,8 @@ class Redis implements DriverInterface
  
 	/**
 	 * Recover an abandoned lock
-	 * @param  mixed	$key	Item to lock
-	 * @return bool	Was the lock acquired?
+	 * @param  string $key Item to lock
+	 * @return bool Was the lock acquired?
 	 */
 	protected function recover($key) {
 		$storageKey = self::KEY . ":{$key}";

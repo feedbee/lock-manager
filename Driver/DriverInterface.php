@@ -10,6 +10,19 @@ namespace LockManager\Driver;
  */
 interface DriverInterface
 {
+	/**
+	 * Lock acquire back-end implementation. Returns true on success or false on failure (can't acquire lock
+	 * or any internal error).
+	 *
+	 * @param string $key
+	 * @return bool
+	 */
 	public function doLock($key);
+	/**
+	 * Lock release back-end implementation. Returns true on success or false on any internal error.
+	 *
+	 * @param string $key
+	 * @return bool
+	 */
 	public function doRelease($key);
 }
