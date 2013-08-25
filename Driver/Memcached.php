@@ -31,7 +31,7 @@ class Memcached implements DriverInterface
 	const KEY = 'LockManager';
 
 	/**
-	 * @var \Memcached $memcached
+	 * @var \Memcached
 	 */
 	private $memcached;
 	/**
@@ -86,7 +86,7 @@ class Memcached implements DriverInterface
 					}
 					// BUSY
 				}
-				// если ключ есть
+				// if the key exists
 				else
 				{
 					// if the key is not valid

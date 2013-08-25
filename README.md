@@ -1,7 +1,10 @@
 LockManager
 ============
 
-LockManager is a universal lock manager for inter-process synchronization in PHP. Supports different types of back-ends: system-local or distributed (network shared). Back-end logic implemented in drivers. Driver object mast be passed to LockManager object in constructor or setDriver() method.
+LockManager is a universal lock manager for inter-process synchronization in PHP.
+Supports different types of back-ends: system-local or distributed (network shared).
+Back-end logic implemented in drivers. Driver object mast be passed to LockManager
+object in constructor or setDriver() method.
 
 Usage example
 -------------

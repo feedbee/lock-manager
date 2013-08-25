@@ -4,7 +4,7 @@
  * LockManager tests.
  *
  * Run this script in console in concurrent mode (many instances in parallel).
- * Tests complated successful if `Tests failed` value is 0 in all runs.
+ * Tests completed successful if `Tests failed` value is 0 in all runs.
  * 
  * (c) Valera Leontyev (feedbee), 2013
  * All LockManager code published under BSD 3-Clause License http://choosealicense.com/licenses/bsd-3-clause/
@@ -44,11 +44,11 @@ $lockManager = new \LockManager\LockManager($backend);
 if (isset($opt['s'])) {
 	// Run simple test (for debug purpose)
 	echo 'Before lock' . PHP_EOL;
-	var_dump($lm->lock('test'));
+	var_dump($lockManager->lock('test'));
 	echo 'After lock' . PHP_EOL;
 	sleep(5);
 	echo 'Before release' . PHP_EOL;;
-	var_dump($lm->release('test'));
+	var_dump($lockManager->release('test'));
 	echo 'After release' . PHP_EOL;
 	exit;
 }
