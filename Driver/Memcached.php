@@ -54,9 +54,10 @@ class Memcached implements DriverInterface
 		return $this->memcached;
 	}
 
-	public function doLock($key)
+	public function doLock($key, $blockOnBusy)
 	{
 		$storageKey = self::KEY . ":{$key}";
+		$lockAcquireTimeout = $blockOnBusy ? self::LOCK_ACQUIRE_TIMEOUT : 0;
 
 		try {
 			$start = time();
@@ -103,9 +104,13 @@ class Memcached implements DriverInterface
 					// BUSY
 				}
 
+				if ($lockAcquireTimeout === 0) {
+					break;
+				}
+
 				usleep(self::SLEEP);
 				
-			} while (!is_numeric(self::LOCK_ACQUIRE_TIMEOUT) || time() < $start + self::LOCK_ACQUIRE_TIMEOUT);
+			} while (!is_numeric($lockAcquireTimeout) || time() < $start + $lockAcquireTimeout);
 	 
 			return $acquired;
 

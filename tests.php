@@ -21,7 +21,7 @@ use LockManager\Driver\Memcached as MemcachedDriver;
 use LockManager\Driver\Redis as RedisDriver;
 use LockManager\Driver\Flock as FlockDriver;
 
-$opt = getopt('mrfs');
+$opt = getopt('mrfsn');
 if (isset($opt['m'])) {
 	print "LockManager: Memcached back-end test" . PHP_EOL;
 	$memcached = new \Memcached;
@@ -43,13 +43,15 @@ else if (isset($opt['f'])) {
 else {
 	die('Set back-end parameter: -m, -r, or -f' . PHP_EOL);
 }
+$block = !isset($opt['n']);
+print 'Block mode: ' . ($block ? 'BLOCK' : 'NOT BLOCK') . PHP_EOL;
 
 $lockManager = new LockManager($backend);
 
 if (isset($opt['s'])) {
 	// Run simple test (for debug purpose)
 	echo 'Before lock' . PHP_EOL;
-	var_dump($lockManager->lock('test'));
+	var_dump($lockManager->lock('test', $block));
 	echo 'After lock' . PHP_EOL;
 	sleep(5);
 	echo 'Before release' . PHP_EOL;;
@@ -64,13 +66,14 @@ $sysTmpDir = sys_get_temp_dir();
 $testFilePath = "{$sysTmpDir}/lock-test-file";
 $fd = fopen($testFilePath, "w+");
 
-$all = $failed = 0;
+$all = $acquired = $failed = 0;
 
 do {
 
-	print "Tests launched: {$all}\tTests failed: {$failed}\r";
+	print "Tests launched: {$all}\tLock acquired: {$acquired}\tTests failed: {$failed}\r";
 
-	if ($lockManager->lock('test-key')) {
+	if ($success = $lockManager->lock('test-key', $block)) {
+		$acquired++;
 		if (!flock($fd, LOCK_EX)) {
 			$failed++;
 			continue;

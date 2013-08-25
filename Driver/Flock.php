@@ -21,12 +21,13 @@ class Flock implements DriverInterface
 		$this->lockFilesDir = sys_get_temp_dir();
 	}
 
-	public function doLock($key)
+	public function doLock($key, $blockOnBusy)
 	{
 		$key = urlencode($key);
 		$this->lockHandlers[$key] = fopen("{$this->lockFilesDir}/lock-$key", "w+");
 		if ($this->lockHandlers[$key]) {
-			if (flock($this->lockHandlers[$key], LOCK_EX)) {
+			$flags = LOCK_EX | ($blockOnBusy ? LOCK_NB : 0);
+			if (flock($this->lockHandlers[$key], $flags)) {
 				return true;
 			}
 		}

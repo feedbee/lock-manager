@@ -53,20 +53,22 @@ class LockManager
 	/**
 	 * Try to acquire lock
 	 * Returns true on success or false on failure (can't acquire lock or any back-end internal error).
+	 * $blockOnBusy parameter sets work-mode: would the function be blocked until lock is acquired?
 	 *
-	 * @param $key
+	 * @param string $key
+	 * @param bool $blockOnBusy True to wait while lock is acquired, false to return immediately
 	 * @return bool
 	 */
-	public function lock($key)
+	public function lock($key, $blockOnBusy = true)
 	{
-		return $this->driver->doLock($key);
+		return $this->driver->doLock($key, $blockOnBusy);
 	}
 
 	/**
 	 * Release lock
 	 * Returns true on success or false on any back-end internal error.
 	 *
-	 * @param $key
+	 * @param string $key
 	 * @return bool
 	 */
 	public function release($key)

@@ -15,9 +15,10 @@ interface DriverInterface
 	 * or any internal error).
 	 *
 	 * @param string $key
+	 * @param bool $blockOnBusy Would the function be blocked until lock is acquired?
 	 * @return bool
 	 */
-	public function doLock($key);
+	public function doLock($key, $blockOnBusy);
 	/**
 	 * Lock release back-end implementation. Returns true on success or false on any internal error.
 	 *

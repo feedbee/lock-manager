@@ -54,9 +54,10 @@ class Redis implements DriverInterface
 		return $this->redis;
 	}
 
-	public function doLock($key)
+	public function doLock($key, $blockOnBusy)
 	{
 		$storageKey = self::KEY . ":{$key}";
+		$lockAcquireTimeout = $blockOnBusy ? self::LOCK_ACQUIRE_TIMEOUT : 0;
 
 		try {
 			$start = time();
@@ -66,10 +67,10 @@ class Redis implements DriverInterface
 				
 				if ($acquired = ($this->redis->setnx($storageKey, $this->expire[$key]))) break;
 				if ($acquired = ($this->recover($key))) break;
-				if (self::LOCK_ACQUIRE_TIMEOUT === 0) break;
+				if ($lockAcquireTimeout === 0) break;
 	 
 				usleep(self::SLEEP);
-			} while (!is_numeric(self::LOCK_ACQUIRE_TIMEOUT) || time() < $start + self::LOCK_ACQUIRE_TIMEOUT);
+			} while (!is_numeric($lockAcquireTimeout) || time() < $start + $lockAcquireTimeout);
 	 
 			return $acquired;
 		} catch (\RedisException $e) {
