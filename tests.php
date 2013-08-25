@@ -41,7 +41,7 @@ else if (isset($opt['f'])) {
 	$backend = new FlockDriver;
 }
 else {
-	die('Set back-end parameter: -m, -r, or -f');
+	die('Set back-end parameter: -m, -r, or -f' . PHP_EOL);
 }
 
 $lockManager = new LockManager($backend);
