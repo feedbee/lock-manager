@@ -1,0 +1,17 @@
+{
+    "name": "feedbee/lock-manager",
+    "description": "LockManager is a universal lock manager for inter-process synchronization in PHP",
+    "type": "library",
+    "license": "Proprietary",
+    "authors": [
+        {
+            "name": "Valera Leontyev",
+            "email": "feedbee@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "LockManager\\": "/"
+        }
+    }
+}
