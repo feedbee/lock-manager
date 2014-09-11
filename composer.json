@@ -2,7 +2,7 @@
     "name": "feedbee/lock-manager",
     "description": "LockManager is a universal lock manager for inter-process synchronization in PHP",
     "type": "library",
-    "license": "Proprietary",
+    "license": "BSD-3",
     "authors": [
         {
             "name": "Valera Leontyev",
